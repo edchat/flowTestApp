@@ -1,5 +1,6 @@
-define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect","dijit/registry", "dojo/sniff", "dojox/mobile/TransitionEvent"],
-function(dom, domStyle, connect, registry, has, TransitionEvent){
+define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect","dijit/registry", "dojo/sniff",
+	"dojo/router", "dojox/mobile/TransitionEvent"],
+function(dom, domStyle, connect, registry, has, router, TransitionEvent){
 	var app = null;
 	var MODULE = "P1";
 	return {
@@ -51,33 +52,39 @@ function(dom, domStyle, connect, registry, has, TransitionEvent){
 				if(previousView.id !== "TestApp_V4") {
 					console.error("Step "+this.app.loopCount+" PreviousView.id should have been TestApp_V4 it was "+previousView.id);
 				}
-				liWidget = registry.byId("dojox_mobile_ListItem_0"); //P1,S1,V1
+				liWidget = registry.byId("dojox_mobile_ListItem_0"); //P1,S1,(V1) P1,S1
+				router.go("/target#P1,S1");
 			}else if(this.app.loopCount === 5) {
 				if(previousView.id !== "TestApp_P1_S1_V1") {
 					console.error("Step "+this.app.loopCount+" PreviousView.id should have been TestApp_P1_S1_V1 it was "+previousView.id);
 				}
 				liWidget = registry.byId("dojox_mobile_ListItem_2"); //P1,S1,V3
+				router.go("/target#P1,S1,V3");
 			}else if(this.app.loopCount === 6) {
 				if(previousView.id !== "TestApp_P1_S1_V1") {
 					console.error("Step "+this.app.loopCount+" PreviousView.id should have been TestApp_P1_S1_V1 it was "+previousView.id);
 				}
 				liWidget = registry.byId("dojox_mobile_ListItem_1"); //V2
+				router.go("/target#V2");
 			}else if(this.app.loopCount === 8) {
 				if(previousView.id !== "TestApp_V2") {
 					console.error("Step "+this.app.loopCount+" PreviousView.id should have been TestApp_V2 it was "+previousView.id);
 				}
 				liWidget = registry.byId("dojox_mobile_ListItem_7"); //P2,S2,Ss2,V5
+				router.go("/target#P2,S2,Ss2,V5");
 			}else if(this.app.loopCount === 11) {
 				if(previousView.id !== "TestApp_P2") {
 					console.error("Step "+this.app.loopCount+" PreviousView.id should have been TestApp_P2 it was "+previousView.id);
 				}
 			//	liWidget = registry.byId("dojox_mobile_ListItem_6"); //P2,S2,Ss2,V5+P2,S2,Ss2,V6
 				liWidget = registry.byId("dojox_mobile_ListItem_3"); //P1,S1,V8
+				router.go("/target#P1,S1,V8");
 			}else if(this.app.loopCount === 12) {
 				if(previousView.id !== "TestApp_P1") {
 					console.error("Step "+this.app.loopCount+" PreviousView.id should have been TestApp_P1 it was "+previousView.id);
 				}
 				liWidget = registry.byId("dojox_mobile_ListItem_4"); //-P1,S1,V8
+				router.go("/target#-P1,S1,V8");
 			//	var liWidget2 = registry.byId("dojox_mobile_ListItem_4"); //-P1,S1,V8
 			//	setTimeout(function() {
 			//		if(liWidget2){
@@ -90,8 +97,9 @@ function(dom, domStyle, connect, registry, has, TransitionEvent){
 					console.error("Step "+this.app.loopCount+" PreviousView.id should have been TestApp_P1_S1_V8 it was "+previousView.id);
 				}
 				liWidget = registry.byId("dojox_mobile_ListItem_6"); //P2,S2,Ss2,V5+P2,S2,Ss2,V6
+				router.go("/target#P2,S2,Ss2,V5XP2,S2,Ss2,V6"); // NOTE + causes problems with Router...
 			}
-			if(liWidget){
+			if(liWidget && !has("useRouter")){
 				var ev = new TransitionEvent(liWidget.domNode, liWidget.params);
 				ev.dispatch();
 			}

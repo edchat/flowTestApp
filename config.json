@@ -63,7 +63,7 @@
 				"dojox/app/controllers/Transition",
 				"dojox/app/controllers/Layout",
 				"dojox/app/controllers/Load",
-				"dojox/app/controllers/History",
+				"dojox/app/controllers/History"
 			],
 			"dependencies": [
 				"dojox/app/widgets/Container"
@@ -78,6 +78,11 @@
 			],
 			"dependencies": [
 				"dapp/widgets/Container"
+			]
+		},
+		"useRouter" : {
+			"controllers": [
+				"flowTestApp/controllers/CustomRouter"
 			]
 		},
 		"phone" : {
