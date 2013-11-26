@@ -62,8 +62,7 @@
 			"controllers": [
 				"dojox/app/controllers/Transition",
 				"dojox/app/controllers/Layout",
-				"dojox/app/controllers/Load",
-				"dojox/app/controllers/History"
+				"dojox/app/controllers/Load"
 			],
 			"dependencies": [
 				"dojox/app/widgets/Container"
@@ -83,6 +82,11 @@
 		"useRouter" : {
 			"controllers": [
 				"flowTestApp/controllers/CustomRouter"
+			]
+		},
+		"dojoxUseHistory" : {
+			"controllers": [
+				"dojox/app/controllers/History"
 			]
 		},
 		"phone" : {

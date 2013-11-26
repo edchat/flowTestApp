@@ -16,6 +16,9 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/dom", "dojo/dom-style", "
 				// summary:
 				//		call setupRouters() to setup the routers to handle.
 				//
+				// Note: there are problems when using this controller with the History controller because it also sets
+				// the url on transitions.  So do not use the History controller with this controller.
+				//
 				// app:
 				//		dojox/app application instance.
 				//
@@ -24,45 +27,27 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/dom", "dojo/dom-style", "
 			},
 
 			setupRouters: function (){
-				router.register("/target#P1,S1", lang.hitch(this, function(evt){
+				router.register(":view", lang.hitch(this, function(evt){
 					evt.preventDefault();
-					this.fireTransiton("P1,S1");
+					// NOTE + causes problems with Router, so use & and replace it with + here
+					var view = evt.params.view.replace("&", "+");
+					view = view.replace("#", "");
+					this.fireTransiton(view);
 				}));
-				router.register("/target#P1,S1,V3", lang.hitch(this, function(evt){
-					evt.preventDefault();
-					this.fireTransiton("P1,S1,V3");
-				}));
-				router.register("/target#V2", lang.hitch(this, function(evt){
-					evt.preventDefault();
-					this.fireTransiton("V2");
-				}));
-				router.register("/target#P2,S2,Ss2,V5", lang.hitch(this, function(evt){
-					evt.preventDefault();
-					this.fireTransiton("P2,S2,Ss2,V5");
-				}));
-				router.register("/target#P1,S1,V8", lang.hitch(this, function(evt){
-					evt.preventDefault();
-					this.fireTransiton("P1,S1,V8");
-				}));
-				router.register("/target#-P1,S1,V8", lang.hitch(this, function(evt){
-					evt.preventDefault();
-					this.fireTransiton("-P1,S1,V8");
-				}));
-				// NOTE + causes problems with router, so use X instead
-				router.register("/target#P2,S2,Ss2,V5XP2,S2,Ss2,V6", lang.hitch(this, function(evt){
-					evt.preventDefault();
-					this.fireTransiton("P2,S2,Ss2,V5+P2,S2,Ss2,V6");
-				}));
-
 			  router.startup();
 			},
 
 			fireTransiton: function (target){
 				console.log("in CustomRouter fireTransiton called for "+ target);
+				// set url for TestInfo to #, to be able to easily run the test multiple times
+				var url = "#";
+				if(target !== "P1,S1,TestInfo"){
+					url = url + target;
+				}
 				var transOpts = {
 					title : target,
 					target : target,
-					url : "#"+target
+					url : url
 				};
 				// need a domNode, so use this.app.domNode.
 				this.app.transitionToView(this.app.domNode,transOpts,null);

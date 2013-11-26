@@ -1,5 +1,6 @@
-define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect","dijit/registry", "dojo/sniff", "dojox/mobile/TransitionEvent"],
-function(dom, domStyle, connect, registry, has, TransitionEvent){
+define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect","dijit/registry", "dojo/sniff",
+	"dojo/router", "dojox/mobile/TransitionEvent"],
+function(dom, domStyle, connect, registry, has, router, TransitionEvent){
 		var _connectResults = []; // events connect result
 		var	list = null;
 		var listId = 'list6';
@@ -100,13 +101,15 @@ function(dom, domStyle, connect, registry, has, TransitionEvent){
 					console.error("Step "+this.app.loopCount+" PreviousView.id should have been TestApp_P2 it was "+previousView.id);
 				}
 				liWidget = registry.byId("dojox_mobile_ListItem_0"); //P1,S1,V1
+				router.go("#P1,S1");
 			}else if(this.app.loopCount === 15) {
 				if(previousView.id !== "TestApp_P2_S2_Ss2_V6") {
 					console.error("Step "+this.app.loopCount+" PreviousView.id should have been TestApp_P2_S2_Ss2_V6 it was "+previousView.id);
 				}
 				liWidget = registry.byId("dojox_mobile_ListItem_12"); //Test Instructions
+				router.go("#P1,S1,TestInfo");
 			}
-			if(liWidget){
+			if(liWidget && !has("useRouter")){
 				setTimeout(function(){ // to simulate network latency
 					var ev = new TransitionEvent(liWidget.domNode, liWidget.params);
 					ev.dispatch();
